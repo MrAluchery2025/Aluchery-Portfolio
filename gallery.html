@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Aluchery Portfolio</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #eef2f3, #8e9eab);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            background: linear-gradient(45deg, #4e54c8, #8f94fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .delete-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover .delete-icon {
+            opacity: 1;
+        }
+
+        .upload-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #4e54c8;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #8f94fb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gallery</h1>
+        <div class="upload-container">
+            <input type="file" id="fileInput" hidden>
+            <label for="fileInput" class="upload-btn">Upload Image</label>
+        </div>
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <script>
+        document.getElementById("fileInput").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const gallery = document.getElementById("gallery");
+                    const galleryItem = document.createElement("div");
+                    galleryItem.classList.add("gallery-item");
+                    
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.innerHTML = "&times;";
+                    deleteBtn.classList.add("delete-icon");
+                    deleteBtn.onclick = function () {
+                        gallery.removeChild(galleryItem);
+                    };
+                    
+                    galleryItem.appendChild(img);
+                    galleryItem.appendChild(deleteBtn);
+                    gallery.appendChild(galleryItem);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

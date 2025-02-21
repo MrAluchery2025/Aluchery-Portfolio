@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials | Aluchery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.8;
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            color: #2c3e50;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4A90E2, #50C878);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        nav a:hover {
+            color: #50C878;
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .testimonial {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ffffff, #e6e9ef);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-in-out;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-10px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .testimonial p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .testimonial strong {
+            display: block;
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #4A90E2;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background: #4A90E2;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .testimonials-container {
+                margin: 2rem 1rem;
+                padding: 1.5rem;
+            }
+
+            .testimonial p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Testimonials - Aluchery's Portfolio</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="testimonials-container">
+        <h2>What People Say</h2>
+
+        <div class="testimonial" contenteditable="true" onblur="saveTestimonials()">
+            <p>"Aluchery's work is outstanding. The attention to detail is impeccable!"</p>
+            <strong>- Jane Doe</strong>
+        </div>
+
+        <div class="testimonial" contenteditable="true" onblur="saveTestimonials()">
+            <p>"A professional with a creative flair. Always exceeds expectations."</p>
+            <strong>- John Smith</strong>
+        </div>
+
+        <div class="testimonial" contenteditable="true" onblur="saveTestimonials()">
+            <p>"Highly recommend Aluchery for anyone seeking exceptional quality."</p>
+            <strong>- Alex Johnson</strong>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Aluchery. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadTestimonials();
+        });
+
+        function saveTestimonials() {
+            const testimonials = Array.from(document.querySelectorAll(".testimonial"));
+            const testimonialData = testimonials.map(testimonial => testimonial.innerHTML);
+            localStorage.setItem('testimonials', JSON.stringify(testimonialData));
+        }
+
+        function loadTestimonials() {
+            const savedTestimonials = JSON.parse(localStorage.getItem('testimonials')) || [];
+            if (savedTestimonials.length > 0) {
+                const testimonials = document.querySelectorAll(".testimonial");
+                testimonials.forEach((testimonial, index) => {
+                    if (savedTestimonials[index]) {
+                        testimonial.innerHTML = savedTestimonials[index];
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+
+</html>

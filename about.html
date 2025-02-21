@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Aluchery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            color: #2c3e50;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4A90E2, #50C878);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        nav a:hover {
+            color: #50C878;
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .about-text {
+            flex: 1;
+            contenteditable: true;
+            outline: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .about-text:hover {
+            transform: scale(1.02);
+        }
+
+        .about-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .about-image {
+            width: 350px;
+            height: auto;
+            border-radius: 20px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover {
+            transform: scale(1.1);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background: #4A90E2;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .about-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-image {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>About - Aluchery's Portfolio</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="about-container">
+        <div class="about-text" contenteditable="true" onblur="saveAbout()">
+            <h2>Welcome to My World</h2>
+            <p>I'm Aluchery, a passionate web developer with a flair for creating dynamic and user-friendly experiences. I specialize in bringing creative ideas to life through innovative coding techniques and interactive design.</p>
+            <p>With expertise in HTML, CSS, JavaScript, and modern frameworks, I craft responsive and visually captivating websites that engage and delight users. My dedication to staying updated with the latest web technologies allows me to provide cutting-edge solutions that meet and exceed client expectations.</p>
+            <p>Beyond coding, I have a keen eye for design and a commitment to delivering seamless user experiences. My goal is to transform visions into reality and create digital spaces that leave a lasting impact.</p>
+        </div>
+
+        <div class="about-image-container" onclick="triggerFileUpload()">
+            <img id="aboutImage" src="default-image.jpg" alt="About Me" class="about-image">
+            <input type="file" id="imageUpload" class="file-input" accept="image/*" onchange="uploadImage()">
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Aluchery. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadAbout();
+        });
+
+        function triggerFileUpload() {
+            document.getElementById("imageUpload").click();
+        }
+
+        function uploadImage() {
+            const input = document.getElementById("imageUpload");
+            const image = document.getElementById("aboutImage");
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    image.src = e.target.result;
+                    localStorage.setItem("aboutImage", e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function saveAbout() {
+            const aboutText = document.querySelector(".about-text").innerHTML;
+            localStorage.setItem("aboutText", aboutText);
+        }
+
+        function loadAbout() {
+            const savedText = localStorage.getItem("aboutText");
+            const savedImage = localStorage.getItem("aboutImage");
+
+            if (savedText) {
+                document.querySelector(".about-text").innerHTML = savedText;
+            }
+
+            if (savedImage) {
+                document.getElementById("aboutImage").src = savedImage;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
